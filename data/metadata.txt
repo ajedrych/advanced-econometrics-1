@@ -1,0 +1,327 @@
+GUS_NUTS:
+plik łączący kody GUS z kodami NUTS
+W widoku wg jednostek statystycznych (NUTS) ma postać:
+
+00	00	0	00	00	000	- łącznie 12 znaków
+1.	2.	3.	4.	5.	6.
+gdzie poszczególne elementy oznaczają odpowiednio:
+1. Symbol makroregionu (01, 02, ..., 07)	- dwa znaki
+2. Symbol województwa (00, 02, ..., 32)	- dwa znaki
+3. Symbol regionu (1, 2)	- jeden znak
+4. Symbol podregionu (00, 01, ..., 73)	- dwa znaki
+5. Symbol powiatu (00, 01, ..., 59 - powiat; 60, ..., 99 - miasto na prawach powiatu)	- dwa znaki
+6. Symbol gminy/części gmin (000......, gdzie ostatni znak stanowi symbol rodzaju jednostki)	- trzy znaki
+
+wspolczynnik_dzietnosci:
+Kategoria
+LUDNOŚĆ (K3)
+Grupa
+URODZENIA I ZGONY (G534)
+Podgrupa
+Współczynnik dzietności i reprodukcji brutto (P2346)
+Lata
+2002-2022
+Współczynnik dzietności oznacza liczbę dzieci, które urodziłaby przeciętnie kobieta w ciągu całego okresu rozrodczego (15 - 49 lat) przy założeniu, że w poszczególnych fazach tego okresu rodziłaby z intensywnością obserwowaną w badanym roku, tzn. przy przyjęciu cząstkowych współczynników płodności z tego okresu za niezmienne; Współczynnik reprodukcji brutto przedstawia liczbę córek urodzonych przeciętnie przez kobietę przy założeniu, że kobieta w wieku rozrodczym będzie rodzić z częstością, jaką charakteryzują się wszystkie kobiety rodzące w roku, dla którego oblicza się współczynnik reprodukcji (niezmienne współczynniki płodności). Wskaźniki odnoszące się do liczby i struktury ludności (płeć, grupy wieku) od 2010 roku zostały przeliczone zgodnie z bilansem przygotowanym w oparciu o wyniki NSP 2011. Źródłem informacji o urodzeniach i zgonach jest dla GUS sprawozdawczość urzędów stanu cywilnego.
+
+wspolczynnik_feminizacji:
+Kategoria
+LUDNOŚĆ (K3)
+Grupa
+STAN LUDNOŚCI (G7)
+Podgrupa
+Współczynnik feminizacji (P3429)
+Lata
+2002-2021
+Współczynnik określający wzajemne relacje między liczbą kobiet i mężczyzn, tj. liczba kobiet przypadająca na 100 mężczyzn.
+
+malzenstwa_zawarte:
+Kategoria
+LUDNOŚĆ (K3)
+Grupa
+MAŁŻEŃSTWA, ROZWODY I SEPARACJE (G535)
+Podgrupa
+Małżeństwa zawarte (P1872)
+Lata
+1995-2022
+====== ogółem
+Dane dotyczące "małżeństw zawartych w ciągu roku na 1000 ludności" opracowane są według miejsca zameldowania męża przed ślubem, w przypadku gdy mąż przed ślubem mieszkał za granicą przyjmuje się miejsce zameldowania żony przed ślubem. Wskaźniki odnoszące się do liczby i struktury ludności (płeć, grupy wieku) od 2010 roku zostały przeliczone zgodnie z bilansem przygotowanym w oparciu o wyniki NSP 2011. Wskaźniki odnoszące się do liczby i struktury ludności (płeć, grupy wieku) od 2020 roku zostały przeliczone zgodnie z bilansem przygotowanym w oparciu o wyniki NSP 2021.
+
+rozwody_i_separacje:
+Kategoria
+LUDNOŚĆ (K3)
+Grupa
+MAŁŻEŃSTWA, ROZWODY I SEPARACJE (G535)
+Podgrupa
+Rozwody i separacje (P1971)
+Lata
+1999-2022
+====== rozwody
+====== rozwody na 10 tys. ludności
+====== separacje
+====== separacje na 10 tys. ludności
+============ ogółem
+GUS publikuje dane o rozwodach według miejsca zamieszkania osoby wnoszącej powództwo o rozwód. Źródłem informacji o rozwodach jest dla GUS sprawozdawczość sądów powszechnych w postaci formularzy statystycznych "Karta statystyczna dotycząca prawomocnego orzeczenia rozwodu". W podziale terytorialnym (miasto/wieś, regiony, województwa, podregiony, powiaty) nie uwzględnia się rozwodów, w których w momencie wniesienia powództwa obie strony zamieszkiwały za granicą, dane te prezentowane są tylko dla Polski ogółem. Dane o rozwodach według miejsca zamieszkania osoby wnoszącej powództwo o rozwód. W podziale terytorialnym (miasto/wieś, regiony, województwa, podregiony, powiaty) nie uwzględnia się separacji, w których w momencie wniesienia powództwa obie strony zamieszkiwały za granicą, dane te prezentowane są tylko dla Polski ogółem. Wskaźniki odnoszące się do liczby i struktury ludności (płeć, grupy wieku) od 2010 roku zostały przeliczone zgodnie z bilansem przygotowanym w oparciu o wyniki NSP 2011.
+
+bezrobotni_wg_wieku_i_plci:
+Kategoria
+RYNEK PRACY (K4)
+Grupa
+BEZROBOCIE REJESTROWANE (G12)
+Podgrupa
+Bezrobotni zarejestrowani wg wieku i płci (P1946)
+Lata
+2000-2022
+====== ogółem
+============ ogółem
+============ mężczyźni
+============ kobiety
+Bezrobotni zarejestrowani wg wieku (ogółem == zagregowany wiek) i płci (ogółem == kobiety + mężczyźni, mężczyźni, kobiety)
+
+stopa_bezrobocia:
+Kategoria
+RYNEK PRACY (K4)
+Grupa
+BEZROBOCIE REJESTROWANE (G12)
+Podgrupa
+Stopa bezrobocia rejestrowanego (P2392)
+Lata
+2004-2022
+======(ogółem) (POLSKA = 100 nie było ściągane)
+Stopę bezrobocia rejestrowanego obliczono jako stosunek liczby bezrobotnych zarejestrowanych do liczby cywilnej ludności aktywnej zawodowo (ogółem oraz danej grupy), tj. bez osób odbywających czynną służbę wojskową oraz pracowników jednostek budżetowych prowadzących działalność w zakresie obrony narodowej i bezpieczeństwa publicznego. Stopę bezrobocia podaje się z uwzględnieniem pracujących w gospodarstwach indywidualnych w rolnictwie (będących składową cywilnej ludności aktywnej zawodowo) wyszacowanych na podstawie wyników: w latach 2004 do listopada 2010 r. - Narodowego Spisu Powszechnego Ludności i Mieszkań 2002 oraz Powszechnego Spisu Rolnego 2002, a od grudnia 2010 r. - Powszechnego Spisu Rolnego 2010.
+
+wynagrodzenia:
+Kategoria
+WYNAGRODZENIA I ŚWIADCZENIA SPOŁECZNE (K40)
+Grupa
+WYNAGRODZENIA (G403)
+Podgrupa
+Przeciętne miesięczne wynagrodzenia brutto (P2497)
+Lata
+2002-2021
+====== ogółem
+Przeciętne miesięczne wynagrodzenia brutto.
+Dane dotyczą podmiotów gospodarki narodowej o liczbie pracujących 10 i więcej osób oraz jednostek sfery budżetowej niezależnie od liczby pracujących.
+
+swiadczenia_rodzinne:
+Kategoria
+OCHRONA ZDROWIA, OPIEKA SPOŁECZNA I ŚWIADCZENIA NA RZECZ RODZINY (K22)
+Grupa
+ŚWIADCZENIA NA RZECZ RODZINY (G477)
+Podgrupa
+Kwoty świadczeń rodzinnych wypłaconych w roku - ogółem (P2993)
+Lata
+2008-2021
+====== kwota świadczeń rodzinnych
+Kwoty świadczeń rodzinnych wypłaconych w roku - ogółem
+Dla gmin miejsko-wiejskich brak informacji dla części miejskiej i części wiejskiej. Źródło danych: Sprawozdania rzeczowo - finansowe o zadaniach z zakresu świadczeń rodzinnych zrealizowanych ze środków budżetu państwa oraz budżetów gmin. Sprawozdania są przekazywane przez gminy z kwartalną częstotliwością do bazy danych Krajowego Systemu Monitoringu Świadczeń Rodzinnych Ministerstwa Rodziny, Pracy i Polityki Społecznej. Ze względu na zaokrąglenia danych sumy składników mogą się nieznacznie różnić od podanych wielkości ogółem.
+
+swiadczenia_500_plus:
+Kategoria
+OCHRONA ZDROWIA, OPIEKA SPOŁECZNA I ŚWIADCZENIA NA RZECZ RODZINY (K22)
+Grupa
+ŚWIADCZENIA Z PROGRAMU RODZINA 500 PLUS (G598)
+Podgrupa
+Świadczenie wychowawcze (P3803)
+Lata
+2017-2021
+====== wydatki na świadczenia wychowawcze
+ŚWIADCZENIA Z PROGRAMU RODZINA 500 PLUS (G598)
+Rządowy program „Rodzina 500 plus” zapoczątkowany w kwietniu 2016 r. jest długofalowym wsparciem kierowanym przede wszystkim do rodzin naturalnych, ale również do rodzinnej i instytucjonalnej pieczy zastępczej. Źródło danych - MRiPS. Świadczenia z programu „Rodzina 500 plus”: • Świadczenie wychowawcze – Od 1 lipca 2019 roku przysługuje na każde dziecko do ukończenia 18. roku życia, bez względu na dochód osiągany przez rodzinę, od 1 kwietnia 2016 do 30 czerwca 2019 r. przysługiwało rodzicom lub opiekunom dzieci do 18 roku życia, niezależnie od dochodu na drugie i kolejne dziecko, a w przypadku dochodu w wysokości nie przekraczającej 800 zł na osobę, także na pierwsze lub jedyne dziecko. Dla rodzin z dzieckiem niepełnosprawnym kryterium dochodowe było wyższe i wynosiło 1200 zł na osobę. Świadczenie wypłacane jest w wysokości 500 zł netto. Dodatek wychowawczy - prawo do dodatku wychowawczego posiada rodzina zastępcza i prowadzący rodzinny dom dziecka, • Dodatek do zryczałtowanej kwoty – prawo do dodatku posiada dyrektor placówki opiekuńczo-wychowawczej typu rodzinnego. • Dodatek w wysokości świadczenia wychowawczego przysługuje na dzieci w pozostałych placówkach instytucjonalnej pieczy zastępczej. Wszystkie dodatki wypłacane są w wysokości 500 zł netto na podstawie ustawy o wspieraniu rodziny i systemie pieczy zastępczej i przekazywane są na każde umieszczone dziecko w wieku do ukończenia 18. roku życia.
+
+mieszkania_uzytkowe:
+Kategoria
+PRZEMYSŁ I BUDOWNICTWO (K12)
+Grupa
+BUDOWNICTWO MIESZKANIOWE (G603)
+Podgrupa
+Budownictwo mieszkaniowe – wskaźniki (P3820)
+Lata
+2002-2022
+====== mieszkania oddane do użytkowania na 1000 ludności
+====== przeciętna powierzchnia użytkowa 1 mieszkania oddanego do użytkowania
+====== przeciętna liczba izb w 1 mieszkaniu oddanym do użytkowania
+====== nowe budynki mieszkalne na 1000 ludności
+Wskaźniki odnoszące się do liczby i struktury ludności (płeć, grupy wieku) od 2010 roku zostały przeliczone zgodnie z bilansem przygotowanym w oparciu o wyniki NSP 2011. Wskaźniki odnoszące się do liczby i struktury ludności (płeć, grupy wieku) od 2020 roku zostały przeliczone zgodnie z bilansem przygotowanym w oparciu o wyniki NSP 2021.
+
+cena_mieszkan_metr_srednia:
+Kategoria
+RYNEK NIERUCHOMOŚCI (K48)
+Grupa
+RYNKOWA SPRZEDAŻ LOKALI MIESZKALNYCH (G597)
+Podgrupa
+Średnia cena za 1 m2 lokali mieszkalnych sprzedanych w ramach transakcji rynkowych (P3788)
+Lata
+2010-2021
+====== ogółem
+============ ogółem
+Uzyskana jako iloraz wartości i powierzchni użytkowej lokali mieszkalnych zaliczonych do danego grupowania. Cena obejmuje wszystkie składniki nieruchomości objętej transakcją. Ceny lokali mieszkalnych sprzedanych na rynku pierwotnym zawierają podatek VAT.
+
+cena_mieszkan_metr_mediana:
+Kategoria
+RYNEK NIERUCHOMOŚCI (K48)
+Grupa
+RYNKOWA SPRZEDAŻ LOKALI MIESZKALNYCH (G597)
+Podgrupa
+Mediana cen za 1 m2 lokali mieszkalnych sprzedanych w ramach transakcji rynkowych (P3787)
+Lata
+2010-2021
+====== ogółem
+============ ogółem
+Mediana to wartość cechy w szeregu uporządkowanym, powyżej i poniżej której znajduje się jednakowa liczba obserwacji. Cena obejmuje wszystkie składniki nieruchomości objętej transakcją. Ceny lokali mieszkalnych sprzedanych na rynku pierwotnym zawierają podatek VAT.
+
+ludnosc_ogolem:
+Kategoria
+LUDNOŚĆ (K3)
+Grupa
+STAN LUDNOŚCI (G7)
+Podgrupa
+Ludność wg grup wieku i płci (P2137)
+Lata
+1995-2021
+====== ogółem
+====== 15 - 19
+====== 20 - 24
+====== 25 - 29
+====== 30 - 34
+====== 35 - 39
+====== 40 - 44
+====== 45 - 49
+====== 50 - 54
+====== 55 - 59
+====== 60 - 64
+====== 65 - 69
+====== 70 - 74
+====== 75 - 79
+====== 80 - 84
+====== 85 i więcej
+============ ogółem
+Dane wg podziału administracyjnego na dzień 31 grudnia.
+
+ludnosc_kobiety:
+Kategoria
+LUDNOŚĆ (K3)
+Grupa
+STAN LUDNOŚCI (G7)
+Podgrupa
+Ludność wg grup wieku i płci (P2137)
+Lata
+1995-2021
+====== ogółem
+====== 15 - 19
+====== 20 - 24
+====== 25 - 29
+====== 30 - 34
+====== 35 - 39
+====== 40 - 44
+====== 45 - 49
+====== 50 - 54
+====== 55 - 59
+====== 60 - 64
+====== 65 - 69
+====== 70 - 74
+====== 75 - 79
+====== 80 - 84
+====== 85 i więcej
+============ kobiety
+Dane wg podziału administracyjnego na dzień 31 grudnia.
+
+ludnosc_mezczyzni:
+Kategoria
+LUDNOŚĆ (K3)
+Grupa
+STAN LUDNOŚCI (G7)
+Podgrupa
+Ludność wg grup wieku i płci (P2137)
+Lata
+1995-2021
+====== ogółem
+====== 15 - 19
+====== 20 - 24
+====== 25 - 29
+====== 30 - 34
+====== 35 - 39
+====== 40 - 44
+====== 45 - 49
+====== 50 - 54
+====== 55 - 59
+====== 60 - 64
+====== 65 - 69
+====== 70 - 74
+====== 75 - 79
+====== 80 - 84
+====== 85 i więcej
+============ mezczyzni
+Dane wg podziału administracyjnego na dzień 31 grudnia.
+
+zlobki:
+Kategoria
+OCHRONA ZDROWIA, OPIEKA SPOŁECZNA I ŚWIADCZENIA NA RZECZ RODZINY (K22)
+Grupa
+OPIEKA NAD DZIEĆMI W WIEKU DO LAT 3. ŻŁOBKI (G266)
+Podgrupa
+Żłobki i kluby dziecięce - wskaźniki (P3227)
+Lata
+2012-2021
+====== miejsca w żłobkach i klubach dziecięcych na 1000 dzieci w wieku do lat 3
+Żłobki łącznie z oddziałami żłobkowymi. Wskaźniki odnoszące się do liczby i struktury ludności (płeć, grupy wieku) od 2010 roku zostały przeliczone zgodnie z bilansem przygotowanym w oparciu o wyniki NSP 2011. Wskaźniki odnoszące się do liczby i struktury ludności (płeć, grupy wieku) od 2020 roku zostały przeliczone zgodnie z bilansem przygotowanym w oparciu o wyniki NSP 2021.
+
+gestosc_zaludnienia:
+Kategoria
+LUDNOŚĆ
+Grupa
+STAN LUDNOŚCI
+Podgrupa
+Gęstość zaludnienia oraz wskaźniki
+Lata
+1995-2022
+==== ludność na 1km2
+==== gęstość zaludnienia powierzchni zabudowanej i zurbanizowanej (osoby/km2)
+==== zmiana liczby ludności na 1000 mieszkańców
+==== ludność w tysiącach
+==== ludność w tysiącach mężczyźni
+==== ludność w tysiącach kobiety
+
+praca_sekcje:
+Kategoria
+RYNEK PRACY (K4)
+Grupa
+PRACUJĄCY, ZATRUDNIENI I PRZECIĘTNE ZATRUDNIENIE WEDŁUG PKD (G479)
+Podgrupa
+Pracujący wg połączonych sekcji i płci w powiatach (P2813)
+Lata
+2005-2021
+==== ogółem
+==== rolnictwo, leśnictwo, łowiectwo i rybactwo
+==== przemysł i budownictwo
+==== handel; naprawa pojazdów samochodowych; transport i gospodarka magazynowa; zakwaterowanie i gastronomia; informacja i komunikacja
+==== działalność finansowa i ubezpieczeniowa; obsługa rynku nieruchomości
+==== pozostałe usługi
+============ ogółem
+============ mężczyźni
+============ kobiety
+
+
+zgony:
+https://ec.europa.eu/eurostat/data/database?node_code=demomwk
+https://ec.europa.eu/eurostat/cache/metadata/en/demomwk_esms.htm
+Data navigation tree
+Database by themes
+Population and social conditions
+Demography, population stock and balance (demo)
+Deaths by week - special data collection (demomwk)
+Deaths by week and sex 
+online data code: DEMO_R_MWK3_T  
+
+dochod:
+KATEGORIA
+FINANSE PUBLICZNE (K27)
+GRUPA
+DOCHODY BUDŻETÓW GMIN I MIAST NA PRAWACH POWIATU (G423)
+PODGRUPA
+DOCHODY NA 1 MIESZKAŃCA (P2627)
+==== ogółem
+==== dochody własne
+==== udziały w podatkach stanowiących dochody budżetu państwa razem
+==== dochody własne - udziały w podatkach stanowiących dochody budżetu państwa podatek dochodowy od osób fizycznych
+==== dochody własne - udziały w podatkach stanowiących dochody budżetu państwa podatek dochodowy od osób prawnych
+==== dochody własne - dochody podatkowe ustalone i pobierane na podstawie odrębnych ustaw
