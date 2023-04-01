@@ -371,11 +371,11 @@ praca_sekcje <- read.csv("./data/praca_sekcje/RYNE_2813_CREL_20230325223718.csv"
 						 colClasses = c("character","character","character",
 						 			   NA,NA,NA,NA,NA)) %>% 
 	as_tibble %>% 
-	mutate(zmienna = case_when(Sektory.ekonomiczne == "ogółem" ~ "praca_ogolem_na_10_tys",
-							   Sektory.ekonomiczne == "rolnictwo, leśnictwo, łowiectwo i rybactwo" ~ "praca_rolnictwo_na_10_tys",
+	mutate(zmienna = case_when(Sektory.ekonomiczne == "ogółem" ~ "praca_ogolem",
+							   Sektory.ekonomiczne == "rolnictwo, leśnictwo, łowiectwo i rybactwo" ~ "praca_rolnictwo",
 							   Sektory.ekonomiczne == "przemysł i budownictwo" ~ "praca_przemysl_na_10_tys",
-							   Sektory.ekonomiczne == "handel; naprawa pojazdów samochodowych; transport i gospodarka magazynowa; zakwaterowanie i gastronomia; informacja i komunikacja" ~ "praca_handel_na_10_tys",
-							   Sektory.ekonomiczne == "działalność finansowa i ubezpieczeniowa; obsługa rynku nieruchomości" ~ "praca_finanse_na_10_tys",
+							   Sektory.ekonomiczne == "handel; naprawa pojazdów samochodowych; transport i gospodarka magazynowa; zakwaterowanie i gastronomia; informacja i komunikacja" ~ "praca_handel",
+							   Sektory.ekonomiczne == "działalność finansowa i ubezpieczeniowa; obsługa rynku nieruchomości" ~ "praca_finanse",
 							   Sektory.ekonomiczne == "pozostałe usługi" ~ "praca_pozostale_na_10_tys")
 	) %>% 
 	dplyr::select(Kod, Nazwa, Płeć, Rok, Wartosc, zmienna) %>% 
@@ -471,19 +471,11 @@ df <- ludnosc_ogolem %>% dplyr::select(NUTS_ID, Kod_GUS, Nazwa, Rok) %>%
 	left_join(zgony[,-c(3)], by = c("NUTS_ID" = "NUTS_ID", "Rok" = "Rok")) %>%
 	left_join(dochod[,-c(2,3)], by = c("NUTS_ID" = "NUTS_ID", "Rok" = "Rok"))
 
-
+ 
 # transformacja zmiennych w df
 df <- df %>% 
 	mutate(swiadczenia_ogolem = swiadczenia_500_plus + swiadczenia_spoleczne)
 
-
-# Świadczenia 500+ zostały wprowadzone w kwietniu 2016 r.
-df$swiadczenia_500_plus[is.na(df$swiadczenia_500_plus)] <- 0
-df$swiadczenia_ogolem <- df$swiadczenia_500_plus + df$swiadczenia_spoleczne
-
-# dodanie zmiennej 0-1 dla lat z covidem
-df$covid <- ifelse((df$Rok == 2020)|(df$Rok == 2021) , 1, 0)
-
 # Zapisujemy dataframe do pliku csv
-write.csv(df_final, file = './data/panel_data_2002-2021.csv')
+write.csv(df, file = './data/panel_data.csv')
 
