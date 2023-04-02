@@ -216,10 +216,7 @@ linearHypothesis(model=fe, c("bezrobotni_mężczyźni=0",
 #p-value = 0.8088 => brak podstaw do odrzucenia hipotezy zerowej o łącznej nieistotności zmiennych
 
 
-
-
-
-
+# DIAGNOSTYKA MODELU ------------------------------------------------------
 
 # AUTOKORELACJA RESZT
 pbgtest(fe) # test Breuscha-Godfreya
@@ -228,26 +225,21 @@ pbgtest(fe) # test Breuscha-Godfreya
 
 
 # HETEROSKEDASTYCZNOŚĆ RESZT 
-bptest(formula, data = df_final_log, studentize = TRUE) # test Breuscha-Pagana
+bptest(fe4, studentize = TRUE) # test Breuscha-Pagana
 
 # p-value < 5% => odrzucamy H0 o homoskedastyczności reszt. 
 # Występuje heteroskedastyczność.
 
 
-# Controlling for heteroskedasticity:
-coeftest(fe, vcovHC) # Heteroskedasticity consistent coefficients
-
-
+# ZALEŻNOŚĆ PRZEKROJOWA
+pcdtest(fe4, test = c("lm"))
+pcdtest(fe4, test = c("cd"))
 
 
 # W modelu występują następujące problemy:
 # - autokorelacja reszt
 # - heteroskedastycznosć reszt
 # - zależność przekrojowa
-
-
-
-
 
 
 # Interpretacja R2 --------------------------------------------------------
@@ -259,31 +251,26 @@ fe_R2 = static_wide_panels_R2(fe)
 
 
 # Macierz odporna ---------------------------------------------------------
-fe_HC_HC0_group = coeftest(fe, vcov.=vcovHC(fe, type="HC0", cluster="group"))
-fe_HC_HC0_group
 
-fe_HC_HC0 = coeftest(fe, vcov.=vcovHC(fe, type="HC0"))
-fe_HC_HC0
+# Macierze odporne na heteroskedastyczność
 
-fe_NW_HC0_group = coeftest(fe, vcov.=vcovNW(fe, type="HC0", cluster="group"))
-fe_NW_HC0_group
+fe4_HC_HC0 = coeftest(fe4, vcov.=vcovHC(fe4, type="HC0")) # odporna na heteroskedastyczność
+fe4_HC_HC0
 
-fe_SCC_HC0_time = coeftest(fe, vcov.=vcovSCC(fe, type="HC0", cluster="time"))
-fe_SCC_HC0_time
+fe4_HC_arellano = coeftest(fe4, vcovHC(fe4, method = 'arellano')) # macierz odporna na heteroskedastyczność i autokorelację (rekomendowana na FE)
+fe4_HC_arellano
 
-fe_HC_arellano = coeftest(fe, vcovHC(fe, method = 'arellano'))
-fe_HC_arellano
+fe4_NW_HC0_group = coeftest(fe4, vcov.=vcovNW(fe4, type="HC0", cluster="group")) # newey west
+fe4_NW_HC0_group
+
+fe4_HC_HC0_group = coeftest(fe4, vcov.=vcovHC(fe4, type="HC0", cluster="group"))
+fe4_HC_HC0_group
+
+fe4_SCC_HC0_time = coeftest(fe4, vcov.=vcovSCC(fe4, type="HC0", cluster="time")) 
+fe4_SCC_HC0_time
 
 
-stargazer(fe, fe_HC_HC0_group, fe_HC_HC0, fe_NW_HC0_group, fe_SCC_HC0_time, fe_HC_arellano, type="text")
-
-
-# Reszty
-resid = fe$residuals
-resztyframe= cbind(resid,df$TRF)
-resztyframe = as.data.frame(resztyframe)
-
-resztyframe %>% ggplot(aes(y = resid, x = V2)) + 
-	geom_point(color = 'red') + 
-	geom_smooth(method = 'lm')
-
+stargazer(fe4, fe4_HC_HC0_group, fe4_HC_HC0, fe4_NW_HC0_group, fe4_SCC_HC0_time, fe4_HC_arellano, 
+		  type = "html",
+		  out = "./image/robust.html"
+		  )
