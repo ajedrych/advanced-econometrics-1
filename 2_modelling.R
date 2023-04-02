@@ -97,15 +97,6 @@ summary(pols)
 fe <- plm(formula, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
 summary(fe)
 
-fixef(fe)
-
-
-# TEST NA ISTOTNOŚĆ EFEKTÓW INDYWIDUALNYCH
-pFtest(fe, pols) 
-
-# p-value < 5% => odrzucamy H0 o tym, że efekty indywidualne są nieistotne
-# Na tej podstawie można stwierdzić, iż model panelowy jest lepszy niż estymowanie
-# za pomocą Metody Najmniejszych Kwadratów.
 
 # Random effects model ----------------------------------------------------
 # Model z estymator efektów losowych
@@ -116,19 +107,118 @@ summary(re)
 
 
 
-# Test Hausmana -----------------------------------------------------------
+stargazer(pols, fe, re, 
+		  align=TRUE, 
+		  type = "html",
+		  column.labels = c("POLS", "FE", "RE"),
+		  out = "./image/first_results.html")
+
+
+# TESTY NA  ISTOTNOŚĆ EFEKTÓW INDYWIDUALNYCH I CZASOWYCH --------------------
+
+# TEST BREUSCHA-PAGANA DLA EFEKTÓW CZASOWYCH
+plmtest(pols, effect =  c("time"), type=("bp"))
+
+# Dla testu Breuscha-Pagana p-value < 5% => odrzucamy H0 o tym, że efekty czasowe są nieistotne
+
+
+# TEST F DLA EFEKTÓW INDYWIDUALNYCH
+pFtest(fe, pols) 
+
+# p-value < 5% => odrzucamy H0 o tym, że efekty czasowe są nieistotne
+# Na tej podstawie można stwierdzić, iż model panelowy jest lepszy niż estymowanie
+# za pomocą Metody Najmniejszych Kwadratów.
+
+
+# TEST HAUSMANA -----------------------------------------------------------
 phtest(fe, re)
 
 # p-value < 5% => odrzucamy H0 o tym, że lepszy będzie estymator efektów losowych
 
 
+# POPRAWA MODELU FE -----------------------------------------
+fe <- plm(formula, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
+summary(fe)
 
-# ZALEŻNOŚĆ PRZEKROJOWA
-pcdtest(fe, test = c("lm")) # test Breuscha-Pagana
-pcdtest(fe, test = c("cd")) # test Pesarana CD
+fixef(fe) # efekty indywidualne
 
-# Dla testu Breuscha-Pagana p-value < 5% => odrzucamy H0 o braku zależności przekrojowej w panelu
-# Dla testu Pesarana CD p-value < 5% => odrzucamy H0 o braku zależności przekrojowej w panelu
+# pierwsza iteracja - usunięcie zmiennej bezrobotni_mezczyzni
+formula1 = TFR ~
+	bezrobotni_kobiety +
+	wynagrodzenia +
+	cena_mieszkan_metr_srednia +
+	rozwody +
+	swiadczenia_500_plus +
+	swiadczenia_spoleczne +
+	wspolczynnik_feminizacji +
+	malzenstwa_zawarte +
+	ludnosc_na_1km2 +
+	praca_ogolem_kobiety +
+	dochody_ogolem +
+	covid
+	
+fe1 <- plm(formula1, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
+summary(fe1)
+
+# druga iteracja - usunięcie zmiennej wspolczynnik_feminizacji
+formula2 = TFR ~
+	bezrobotni_kobiety +
+	wynagrodzenia +
+	cena_mieszkan_metr_srednia +
+	rozwody +
+	swiadczenia_500_plus +
+	swiadczenia_spoleczne +
+	malzenstwa_zawarte +
+	ludnosc_na_1km2 +
+	praca_ogolem_kobiety +
+	dochody_ogolem +
+	covid
+
+fe2 <- plm(formula2, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
+summary(fe2)
+
+# trzecia iteracja - usunięcie zmiennej dochody_ogolem
+formula3 = TFR ~
+	bezrobotni_kobiety +
+	wynagrodzenia +
+	cena_mieszkan_metr_srednia +
+	rozwody +
+	swiadczenia_500_plus +
+	swiadczenia_spoleczne +
+	malzenstwa_zawarte +
+	ludnosc_na_1km2 +
+	praca_ogolem_kobiety +
+	covid
+
+fe3 <- plm(formula3, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
+summary(fe3)
+	
+# czwarta iteracja - usunięcie zmiennej ludnosc_na_1km2
+formula4 = TFR ~
+	bezrobotni_kobiety +
+	wynagrodzenia +
+	cena_mieszkan_metr_srednia +
+	rozwody +
+	swiadczenia_500_plus +
+	swiadczenia_spoleczne +
+	malzenstwa_zawarte +
+	praca_ogolem_kobiety +
+	covid
+
+fe4 <- plm(formula4, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
+summary(fe4)
+
+library("car")
+linearHypothesis(model=fe, c("bezrobotni_mężczyźni=0", 
+							 "wspolczynnik_feminizacji=0",
+							 "dochody_ogolem=0",
+							 "ludnosc_na_1km2=0"))
+#p-value = 0.8088 => brak podstaw do odrzucenia hipotezy zerowej o łącznej nieistotności zmiennych
+
+
+
+
+
 
 
 # AUTOKORELACJA RESZT
