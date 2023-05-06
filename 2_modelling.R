@@ -114,7 +114,7 @@ stargazer(pols, fe, re,
 		  out = "./image/first_results.html")
 
 
-# TESTY NA  ISTOTNOŚĆ EFEKTÓW INDYWIDUALNYCH I CZASOWYCH --------------------
+# TESTY NA ISTOTNOŚĆ EFEKTÓW INDYWIDUALNYCH I CZASOWYCH --------------------
 
 # TEST BREUSCHA-PAGANA DLA EFEKTÓW CZASOWYCH
 plmtest(pols, effect =  c("time"), type=("bp"))
@@ -246,7 +246,7 @@ pcdtest(fe4, test = c("cd"))
 
 source('./source/static_wide_panels_R2.R')
 
-fe_R2 = static_wide_panels_R2(fe)
+fe_R2 = static_wide_panels_R2(fe4)
 
 
 
