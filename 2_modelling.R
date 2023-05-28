@@ -13,9 +13,10 @@ library("stargazer")
 library("readxl")
 library('stringr')
 library('ggplot2')
-install.packages('gplots')
 library('gplots')
 library('tidyverse')
+library(foreign)
+library(car)
 
 # Ustawienia liczb
 options(scipen=999)
@@ -44,41 +45,71 @@ df_final <- df[, c('Nazwa',
 				   'dochody_ogolem')]
 
 df_final_log <- df_final
-
 df_final_log[, -c(1,2)] <- log(df_final_log[, -c(1,2)])
 
 
 # Świadczenia 500+ zostały wprowadzone w kwietniu 2016 r.
 df_final_log$swiadczenia_500_plus[is.na(df_final_log$swiadczenia_500_plus)] <- 0
 
-# dodanie zmiennej 0-1 dla lat z covidem
+# Dodanie zmiennej 0-1 dla lat, gdzie występował COVID-19
 df_final_log$covid <- ifelse((df_final_log$Rok == 2020)|(df_final_log$Rok == 2021) , 1, 0)
+
+# Dodanie przedrostka 'ln' dla zlogarytmowanych zmiennych
+colnames(df_final_log)[-c(1, 2, 16)] <- paste('ln', colnames(df_final_log)[-c(1, 2, 16)], sep = '_') 
+
+
+# Podstawowa analiza statystyczna -----------------------------------------
+
+# Dataframe bez zmiennej 'Rok'
+df_final_log_without_year <- df_final_log[,!names(df_final_log) %in% c("Rok")]
+df_final_log_without_year
+
+# Tabela z podstawowymi statystykami
+stargazer(df_final_log_without_year, 
+		  align=TRUE, 
+		  digits = 2,
+		  type = "html",
+		  out = "./image/stats_summary.html")
+
+# Eksploracja panelu
+coplot(ln_TFR ~ Rok|Nazwa, type="l", data=df_final_log) 
+coplot(ln_TFR ~ Rok|Nazwa, type="b", data=df_final_log)
+
+
+windows()
+scatterplot(ln_TFR ~ Rok|Nazwa, boxplots=FALSE, smooth=TRUE, reg.line=FALSE, data=df_final_log)
+
+# Analiza korelacji
+library(corrplot)
+windows()
+M = cor(df_final_log_without_year[, -c(1)])
+corrplot(M)
 
 
 # Efekty stałe ------------------------------------------------------------
 
 # Heterogeniczność (zróżnicowanie) między regionami 
-plotmeans(TFR ~ Nazwa, main="Zróżnicowanie między regionami", data=df)
+plotmeans(ln_TFR ~ Nazwa, main="Zróżnicowanie między regionami", data=df_final_log)
 
 # Heterogeniczność (zróżnicowanie) między latami
-plotmeans(TFR ~ Rok, main="Zróżnicowanie między latami", data=df)
+plotmeans(ln_TFR ~ Rok, main="Zróżnicowanie między latami", data=df_final_log)
 
 
 # Formuła modelu  --------------------------------------------------------------
 
-formula = TFR ~
-	bezrobotni_mężczyźni +
-	bezrobotni_kobiety +
-	wynagrodzenia +
-	cena_mieszkan_metr_srednia +
-	rozwody +
-	swiadczenia_500_plus +
-	swiadczenia_spoleczne +
-	wspolczynnik_feminizacji +
-	malzenstwa_zawarte +
-	ludnosc_na_1km2 +
-	praca_ogolem_kobiety +
-	dochody_ogolem +
+formula = ln_TFR ~
+	ln_bezrobotni_mężczyźni +
+	ln_bezrobotni_kobiety +
+	ln_wynagrodzenia +
+	ln_cena_mieszkan_metr_srednia +
+	ln_rozwody +
+	ln_swiadczenia_500_plus +
+	ln_swiadczenia_spoleczne +
+	ln_wspolczynnik_feminizacji +
+	ln_malzenstwa_zawarte +
+	ln_ludnosc_na_1km2 +
+	ln_praca_ogolem_kobiety +
+	ln_dochody_ogolem +
 	covid
 
 
@@ -90,6 +121,15 @@ summary(pols)
 
 # Model ten nie uwzględnia heterogeniczności między podmiotami i czasem
 
+# OLS za pomocą linear regression model
+ols <- lm (formula, data = df_final_log)
+summary(ols)
+
+# Homoskedastyczność POLS 
+res <- residuals(ols)
+yhat <- fitted(ols)
+plot(yhat, res, xlab = "Wartości dopasowane", ylab = "Reszty")
+plot(ols)
 
 # Fixed effects model -----------------------------------------------------
 # Model z estymatorem efektów stałych
@@ -101,10 +141,8 @@ summary(fe)
 # Random effects model ----------------------------------------------------
 # Model z estymator efektów losowych
 
-
 re <- plm(formula, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'random')
 summary(re)
-
 
 
 stargazer(pols, fe, re, 
@@ -143,76 +181,76 @@ summary(fe)
 fixef(fe) # efekty indywidualne
 
 # pierwsza iteracja - usunięcie zmiennej bezrobotni_mezczyzni
-formula1 = TFR ~
-	bezrobotni_kobiety +
-	wynagrodzenia +
-	cena_mieszkan_metr_srednia +
-	rozwody +
-	swiadczenia_500_plus +
-	swiadczenia_spoleczne +
-	wspolczynnik_feminizacji +
-	malzenstwa_zawarte +
-	ludnosc_na_1km2 +
-	praca_ogolem_kobiety +
-	dochody_ogolem +
+formula1 = ln_TFR ~
+	ln_bezrobotni_kobiety +
+	ln_wynagrodzenia +
+	ln_cena_mieszkan_metr_srednia +
+	ln_rozwody +
+	ln_swiadczenia_500_plus +
+	ln_swiadczenia_spoleczne +
+	ln_wspolczynnik_feminizacji +
+	ln_malzenstwa_zawarte +
+	ln_ludnosc_na_1km2 +
+	ln_praca_ogolem_kobiety +
+	ln_dochody_ogolem +
 	covid
 	
 fe1 <- plm(formula1, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
 summary(fe1)
 
 # druga iteracja - usunięcie zmiennej wspolczynnik_feminizacji
-formula2 = TFR ~
-	bezrobotni_kobiety +
-	wynagrodzenia +
-	cena_mieszkan_metr_srednia +
-	rozwody +
-	swiadczenia_500_plus +
-	swiadczenia_spoleczne +
-	malzenstwa_zawarte +
-	ludnosc_na_1km2 +
-	praca_ogolem_kobiety +
-	dochody_ogolem +
+formula2 = ln_TFR ~
+	ln_bezrobotni_kobiety +
+	ln_wynagrodzenia +
+	ln_cena_mieszkan_metr_srednia +
+	ln_rozwody +
+	ln_swiadczenia_500_plus +
+	ln_swiadczenia_spoleczne +
+	ln_malzenstwa_zawarte +
+	ln_ludnosc_na_1km2 +
+	ln_praca_ogolem_kobiety +
+	ln_dochody_ogolem +
 	covid
 
 fe2 <- plm(formula2, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
 summary(fe2)
 
 # trzecia iteracja - usunięcie zmiennej dochody_ogolem
-formula3 = TFR ~
-	bezrobotni_kobiety +
-	wynagrodzenia +
-	cena_mieszkan_metr_srednia +
-	rozwody +
-	swiadczenia_500_plus +
-	swiadczenia_spoleczne +
-	malzenstwa_zawarte +
-	ludnosc_na_1km2 +
-	praca_ogolem_kobiety +
+formula3 = ln_TFR ~
+	ln_bezrobotni_kobiety +
+	ln_wynagrodzenia +
+	ln_cena_mieszkan_metr_srednia +
+	ln_rozwody +
+	ln_swiadczenia_500_plus +
+	ln_swiadczenia_spoleczne +
+	ln_malzenstwa_zawarte +
+	ln_ludnosc_na_1km2 +
+	ln_praca_ogolem_kobiety +
 	covid
 
 fe3 <- plm(formula3, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
 summary(fe3)
 	
 # czwarta iteracja - usunięcie zmiennej ludnosc_na_1km2
-formula4 = TFR ~
-	bezrobotni_kobiety +
-	wynagrodzenia +
-	cena_mieszkan_metr_srednia +
-	rozwody +
-	swiadczenia_500_plus +
-	swiadczenia_spoleczne +
-	malzenstwa_zawarte +
-	praca_ogolem_kobiety +
+formula4 = ln_TFR ~
+	ln_bezrobotni_kobiety +
+	ln_wynagrodzenia +
+	ln_cena_mieszkan_metr_srednia +
+	ln_rozwody +
+	ln_swiadczenia_500_plus +
+	ln_swiadczenia_spoleczne +
+	ln_malzenstwa_zawarte +
+	ln_praca_ogolem_kobiety +
 	covid
 
 fe4 <- plm(formula4, data = df_final_log, index = c('Nazwa', 'Rok'), model = 'within')
 summary(fe4)
 
 library("car")
-linearHypothesis(model=fe, c("bezrobotni_mężczyźni=0", 
-							 "wspolczynnik_feminizacji=0",
-							 "dochody_ogolem=0",
-							 "ludnosc_na_1km2=0"))
+linearHypothesis(model=fe, c("ln_bezrobotni_mężczyźni=0", 
+							 "ln_wspolczynnik_feminizacji=0",
+							 "ln_dochody_ogolem=0",
+							 "ln_ludnosc_na_1km2=0"))
 #p-value = 0.8088 => brak podstaw do odrzucenia hipotezy zerowej o łącznej nieistotności zmiennych
 
 
@@ -268,6 +306,15 @@ fe4_HC_HC0_group
 
 fe4_SCC_HC0_time = coeftest(fe4, vcov.=vcovSCC(fe4, type="HC0", cluster="time")) 
 fe4_SCC_HC0_time
+
+
+# Kryteria informacyjne AIC i BIC -----------------------------------------
+source('./source/AIC.R')
+
+AIC_fe4 = aicbic_plm(fe4, "AIC")
+BIC_fe4 = aicbic_plm(fe4, "BIC")
+
+
 
 
 stargazer(fe4, fe4_HC_HC0_group, fe4_HC_HC0, fe4_NW_HC0_group, fe4_SCC_HC0_time, fe4_HC_arellano, 
